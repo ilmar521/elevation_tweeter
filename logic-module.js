@@ -25,19 +25,21 @@ const Tweeter = function () {
     let postIdCounter = 2
     let commentIdCounter = 6
 
-    const retrievePost = (id) => {
-        const index = _posts.findIndex(item => item.id === id)
+    const getRecordFromArray = (id, arr) => {
+        const index = arr.findIndex(item => item.id === id)
         if (index !== -1) {
-            return _posts[index]
+            return arr[index]
         }           
         return false
     }
 
     const getPosts = () => _posts
+
     const addPost = post => {
         postIdCounter++ 
         _posts.push({text: post, id: `p${postIdCounter}`, comments:[]})      
     }
+
     const removePost = (postId) => {
         const index = _posts.findIndex(item => item.id === postId)
         if (index !== -1) {
@@ -45,14 +47,15 @@ const Tweeter = function () {
             postIdCounter--
         }     
     }
+
     const addComment = (comment, postId) => {       
-        const post = retrievePost(postId)
+        const post = getRecordFromArray(postId, _posts)
         commentIdCounter++ 
         post.comments.push({id: `c${commentIdCounter}`, text: comment})  
     }
 
     const removeComment = (postId, commentId)  => {
-        const post = retrievePost(postId)
+        const post = getRecordFromArray(postId, _posts)
         const index = post.comments.findIndex(item => item.id === commentId)
         if (index !== -1) {
             post.comments.splice(index, 1)
